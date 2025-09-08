@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content=" الكوست سكول الشرق ابوجر  دوري SEVi في لعبة فيفا 26 - تابع المباريات الحماسية، ترتيب اللاعبين، وجداول النتائج مباشرة. أقوى منافسة عربية لمحترفي FIFA. سيرفر sevi">
+    <title>دوري SEVi في لعبة فيفا 26 - 11 جولة</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap');
+        
+        :root {
+            --primary-bg: #0a0a0a;
+            --secondary-bg: #1a1a1a;
+            --card-bg: #2a2a2a;
+            --accent-teal: #00d9ff;
+            --accent-gold: #ffd700;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --success: #00ff88;
+            --danger: #ff4444;
+            --border: #404040;
+            --shadow: rgba(0, 217, 255, 0.2);
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Tajawal', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--primary-bg) 0%, #1a1a2e 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background: linear-gradient(45deg, var(--secondary-bg), #16213e);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, var(--accent-teal), transparent);
+            animation: rotate 10s linear infinite;
+            z-index: -1;
+        }
+        .header::after {
+            content: '';
+            position: absolute;
+            inset: 3px;
+            background: linear-gradient(45deg, var(--secondary-bg), #16213e);
+            border-radius: 17px;
+            z-index: -1;
+        }
+        @keyframes rotate {
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Logo and Title Container */
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .title-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 217, 255, 0.3);
+            transition: all 0.3s ease;
+            border: 2px solid rgba(0, 217, 255, 0.2);
+            background: rgba(0, 0, 0, 0.2);
+            padding: 4px;
+            object-fit: contain;
+        }
+        
+        .logo:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 8px 30px rgba(0, 217, 255, 0.6);
+            border-color: var(--accent-teal);
+        }
+        
+        .header h1 {
+  font-size: 2.5rem;
+
+  background: linear-gradient(45deg, var(--accent-teal), var(--accent-gold));
+
+  /* ✅ دعم أوسع للتوافق */
+  -webkit-background-clip: text;
+  background-clip: text;
+
+  -webkit-text-fill-color: transparent;
+
+  margin: 0;
+  text-shadow: 0 0 20px rgba(0, 217, 255, 0.5);
+  text-align: center;
+}
+
+        
+        
+        .controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 10px;
+            font-family: inherit;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-admin {
+            background: linear-gradient(45deg, var(--accent-teal), #0099cc);
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 217, 255, 0.3);
+        }
+        .btn-admin:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 217, 255, 0.4);
+        }
+        .btn-admin.active {
+            background: linear-gradient(45deg, var(--accent-gold), #ff9900);
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+        }
+        .btn-reset {
+            background: linear-gradient(45deg, var(--danger), #cc0000);
+            color: white;
+        }
+        .btn-next {
+            background: linear-gradient(45deg, var(--success), #00cc44);
+            color: white;
+            animation: pulse 2s infinite;
+        }
+        .btn-prev {
+            background: linear-gradient(45deg, #666, #444);
+            color: white;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        .main-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+        .left-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        .right-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .status-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .status-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 15px;
+            border: 1px solid var(--border);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .status-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-teal), var(--accent-gold));
+        }
+        .league-table {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid var(--border);
+            margin-bottom: 20px;
+        }
+        .standings-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        .standings-table th,
+        .standings-table td {
+            padding: 8px 4px;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.9rem;
+        }
+        .standings-table th {
+            background: var(--secondary-bg);
+            color: var(--accent-teal);
+            font-weight: bold;
+        }
+        .standings-table tr:hover {
+            background: rgba(0, 217, 255, 0.1);
+        }
+        .standings-table tr:first-child td {
+            color: var(--accent-gold);
+            font-weight: bold;
+        }
+        .matches-section {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid var(--border);
+        }
+        .round-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .round-selector {
+            background: var(--secondary-bg);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-family: inherit;
+        }
+        .matches-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        .match-card {
+            background: var(--secondary-bg);
+            border-radius: 10px;
+            padding: 15px;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+        .match-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px var(--shadow);
+            border-color: var(--accent-teal);
+        }
+        .team-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 10px 0;
+        }
+        .team {
+            flex: 1;
+            text-align: center;
+            font-weight: 500;
+            padding: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            margin: 0 5px;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        .team.winner {
+            background: linear-gradient(45deg, var(--success), #00aa44);
+            color: white;
+            transform: scale(1.02);
+        }
+        .score-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin: 10px 0;
+        }
+        .score {
+            background: var(--primary-bg);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            text-align: center;
+            min-width: 40px;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+        .score:focus {
+            border-color: var(--accent-teal);
+            box-shadow: 0 0 8px rgba(0, 217, 255, 0.3);
+            outline: none;
+        }
+        .vs {
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: var(--accent-gold);
+        }
+        .round-title {
+  background: linear-gradient(45deg, var(--accent-teal), var(--accent-gold));
+  
+  /* دعم للمتصفحات المختلفة */
+  -webkit-background-clip: text;
+  background-clip: text;
+  
+  -webkit-text-fill-color: transparent;
+  
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+        
+        .progress-bar {
+            background: var(--secondary-bg);
+            border-radius: 10px;
+            padding: 15px;
+            border: 1px solid var(--border);
+        }
+        .progress-fill {
+            height: 8px;
+            background: linear-gradient(45deg, var(--accent-teal), var(--accent-gold));
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        .hidden {
+            display: none;
+        }
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .logo {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .title-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .matches-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+            .standings-table {
+                font-size: 0.8rem;
+            }
+            .standings-table th,
+            .standings-table td {
+                padding: 4px 2px;
+            }
+        }
+    </style>
+    <style>
+        /* --- الوضع الفاتح --- */
+        body {
+          background-color: white;
+          color: black;
+          font-family: Arial, sans-serif;
+          transition: background-color 0.3s ease, color 0.3s ease;
+          margin: 0;
+          padding: 20px;
+          text-align: center;
+        }
+    
+        /* --- الوضع الداكن --- */
+        body.dark-mode {
+          background-color: #121212;
+          color: #e0e0e0;
+        }
+    
+        /* زر التبديل */
+        .toggle-btn {
+            float: right;  
+          background-color: #007bff;
+          color: white;
+          border: none;
+          padding: 10px 20px;
+          cursor: pointer;
+          font-size: 10px;
+          border-radius: 5px;
+          margin-bottom: 10px;
+          transition: background-color 0.3s ease;
+        }
+    
+        .toggle-btn:hover {
+          background-color: #0056b3;
+        }
+      </style>
+</head>
+<body>
+     <!-- زر تبديل الثيم -->
+  <button class="toggle-btn" id="theme-toggle">تفعيل الوضع الداكن</button>
+
+  <!-- محتوى الموقع -->
+  <h1>🏆 دوري SEVi في لعبة فيفا 26 - موسم كامل</h1>
+  <p>مرحبًا بكم في أقوى دوري لمحترفي الفيفا 🔥</p>
+
+  <script>
+    const toggleBtn = document.getElementById('theme-toggle');
+    const body = document.body;
+
+    toggleBtn.addEventListener('click', () => {
+      body.classList.toggle('dark-mode');
+
+      if(body.classList.contains('dark-mode')) {
+        toggleBtn.textContent = ' 🌙تفعيل الوضع الداكن';
+      } else {
+        toggleBtn.textContent = '  ☀️تفعيل الوضع الفاتح';
+      }
+    });
+  </script>
+
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <div class="title-container">
+                    <!-- Your SEVi Logo -->
+                    <div class="logo-container" style="text-align: center; margin-bottom: 15px;">
+                        <img src="Emoji-.png" alt="SEVi" class="logo" style="max-width: 100px; height: auto;" />
+
+                        <h1>🏆 دوري SEVi في لعبة فيفا 26 - موسم كامل</h1>
+                    </div>
+                    <video autoplay loop muted playsinline style="width: 68%; max-height: 800px; object-fit: cover; display: block;">
+                        <source src="ss.mp4" type="video/mp4">
+                        متصفحك لا يدعم تشغيل الفيديو.
+                    
+                    </video>
+                    <div style="text-align: center; margin-top: 30px;">
+                        <p style="font-size: 20px;">🔥SEVi</p>
+                        <p style="font-size: 18px;">تابع النتائج، الإحصائيات، والمباريات الحماسية طوال الموسم!</p>
+                        <p style="font-size: 18px;">المطور سكول الشرق بعيوني الكوست وابو جر وابوناصر والعيال كلهم </p>
+                      </div>
+                      
+                      
+                    
+                <div class="controls">
+                    <button class="btn btn-admin" id="adminToggle">
+                        <span id="adminText">تفعيل وضع الإدارة</span>
+                    </button>
+                    <button class="btn btn-admin" id="adminToggle">
+                        <span id="adminText">تفعيل وضع الزكرت</span>
+                    </button>
+                    <button class="btn btn-reset" id="resetBtn">
+                        موسم جديد
+                    </button>
+                </div>
+            </div>
+        </header>
+        
+        <div class="main-content">
+            <div class="left-panel">
+                <div class="matches-section">
+                    <div class="round-navigation">
+                        <button class="btn btn-prev" id="prevRoundBtn">← الجولة السابقة</button>
+                        <div>
+                            <select class="round-selector" id="roundSelector">
+                                <option value="0">الجولة 1</option>
+                                <option value="1">الجولة 2</option>
+                                <option value="2">الجولة 3</option>
+                                <option value="3">الجولة 4</option>
+                                <option value="4">الجولة 5</option>
+                                <option value="5">الجولة 6</option>
+                                <option value="6">الجولة 7</option>
+                                <option value="7">الجولة 8</option>
+                                <option value="8">الجولة 9</option>
+                                <option value="9">الجولة 10</option>
+                                <option value="10">الجولة 11</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-next" id="nextRoundBtn">الجولة التالية →</button>
+                    </div>
+                    
+                    <h2 class="round-title" id="roundTitle">الجولة 1</h2>
+                    <div class="matches-grid" id="matchesContainer">
+                        <!-- المباريات ستظهر هنا -->
+                    </div>
+                </div>
+            </div>
+            <div class="right-panel">
+                <div class="status-bar">
+                    <div class="status-card">
+                        <h4>الجولة الحالية</h4>
+                        <div id="currentRound" style="font-size: 1.3rem; font-weight: bold; color: var(--accent-teal);">1</div>
+                    </div>
+                    <div class="status-card">
+                        <h4>المباريات المكتملة</h4>
+                        <div id="completedMatches" style="font-size: 1.3rem; font-weight: bold; color: var(--accent-gold);">0</div>
+                    </div>
+                    <div class="status-card">
+                        <h4>إجمالي الأهداف</h4>
+                        <div id="totalGoals" style="font-size: 1.3rem; font-weight: bold; color: var(--success);">0</div>
+                    </div>
+                </div>
+                <div class="progress-bar">
+                    <h4>تقدم الموسم</h4>
+                    <div style="background: var(--secondary-bg); border-radius: 4px; margin-top: 10px;">
+                        <div class="progress-fill" id="seasonProgress" style="width: 9%;"></div>
+                    </div>
+                    <p style="text-align: center; margin-top: 5px; font-size: 0.9rem;" id="progressText">جولة 1 من 11</p>
+                </div>
+                <div class="league-table">
+                    <h3 class="round-title">🏆 جدول الترتيب</h3>
+                    <table class="standings-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>الفريق</th>
+                                <th>لعب</th>
+                                <th>فوز</th>
+                                <th>تعادل</th>
+                                <th>خسر</th>
+                                <th>له</th>
+                                <th>عليه</th>
+                                <th>الفرق</th>
+                                <th>النقاط</th>
+                            </tr>
+                        </thead>
+                        <tbody id="standingsBody">
+                            <!-- جدول الترتيب سيظهر هنا -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        class SEViLeague {
+            constructor() {
+                this.teams = [
+                    'الكوست', 'سعود', 'دارك', 'ياسر', 
+                    'ابو عبدالله', 'لوبو', 'ابو خلود', 'عزيز',
+                    'نهار', 'بندر', 'عزوز الفهيد', 'نواف'
+                ];
+                
+                // Generate 11 rounds of matches
+                this.rounds = this.generateAllRounds();
+                this.currentRoundView = 0;
+                this.isAdminMode = false;
+                this.standings = this.initializeStandings();
+                
+                this.initializeElements();
+                this.bindEvents();
+                this.loadFromStorage();
+                this.render();
+            }
+            generateAllRounds() {
+                const rounds = [];
+                const teams = [...this.teams];
+                
+                // Generate 11 rounds with rotating matchups
+                for (let round = 0; round < 11; round++) {
+                    const matches = [];
+                    for (let i = 0; i < teams.length; i += 2) {
+                        const homeIndex = (i + round) % teams.length;
+                        const awayIndex = (i + 1 + round) % teams.length;
+                        matches.push({
+                            home: teams[homeIndex],
+                            away: teams[awayIndex],
+                            scoreHome: 0,
+                            scoreAway: 0,
+                            completed: false
+                        });
+                    }
+                    rounds.push(matches);
+                }
+                return rounds;
+            }
+            initializeStandings() {
+                const standings = {};
+                this.teams.forEach(team => {
+                    standings[team] = {
+                        played: 0,
+                        wins: 0,
+                        draws: 0,
+                        losses: 0,
+                        goalsFor: 0,
+                        goalsAgainst: 0,
+                        goalDifference: 0,
+                        points: 0
+                    };
+                });
+                return standings;
+            }
+            initializeElements() {
+                this.adminToggle = document.getElementById('adminToggle');
+                this.adminText = document.getElementById('adminText');
+                this.resetBtn = document.getElementById('resetBtn');
+                this.prevRoundBtn = document.getElementById('prevRoundBtn');
+                this.nextRoundBtn = document.getElementById('nextRoundBtn');
+                this.roundSelector = document.getElementById('roundSelector');
+                this.matchesContainer = document.getElementById('matchesContainer');
+                this.currentRoundDisplay = document.getElementById('currentRound');
+                this.completedMatchesDisplay = document.getElementById('completedMatches');
+                this.totalGoalsDisplay = document.getElementById('totalGoals');
+                this.roundTitle = document.getElementById('roundTitle');
+                this.standingsBody = document.getElementById('standingsBody');
+                this.seasonProgress = document.getElementById('seasonProgress');
+                this.progressText = document.getElementById('progressText');
+            }
+            bindEvents() {
+                this.adminToggle.addEventListener('click', () => this.toggleAdminMode());
+                this.resetBtn.addEventListener('click', () => this.resetSeason());
+                this.prevRoundBtn.addEventListener('click', () => this.changeRound(-1));
+                this.nextRoundBtn.addEventListener('click', () => this.changeRound(1));
+                this.roundSelector.addEventListener('change', (e) => {
+                    this.currentRoundView = parseInt(e.target.value);
+                    this.render();
+                });
+            }
+            toggleAdminMode() {
+                this.isAdminMode = !this.isAdminMode;
+                this.adminToggle.classList.toggle('active', this.isAdminMode);
+                this.adminText.textContent = this.isAdminMode ? 'إلغاء وضع الإدارة' : 'تفعيل وضع الإدارة';
+                this.renderMatches();
+            }
+            changeRound(direction) {
+                const newRound = this.currentRoundView + direction;
+                if (newRound >= 0 && newRound < 11) {
+                    this.currentRoundView = newRound;
+                    this.roundSelector.value = this.currentRoundView;
+                    this.render();
+                }
+            }
+            updateScore(roundIndex, matchIndex, team, value) {
+                const score = Math.max(0, parseInt(value) || 0);
+                const match = this.rounds[roundIndex][matchIndex];
+                const wasCompleted = match.completed;
+                
+                if (team === 'home') {
+                    match.scoreHome = score;
+                } else {
+                    match.scoreAway = score;
+                }
+                
+                const isNowCompleted = match.scoreHome > 0 || match.scoreAway > 0;
+                match.completed = isNowCompleted;
+                
+                // Update standings only if match completion status changed
+                if (wasCompleted !== isNowCompleted) {
+                    this.updateStandings();
+                } else if (isNowCompleted) {
+                    // Update standings for score changes in completed matches
+                    this.updateStandings();
+                }
+                
+                this.saveToStorage();
+                this.renderStandings();
+                this.updateStatus();
+            }
+            updateStandings() {
+                // Reset all standings
+                this.standings = this.initializeStandings();
+                
+                // Calculate standings from all completed matches across all rounds
+                this.rounds.forEach(round => {
+                    round.forEach(match => {
+                        if (match.completed) {
+                            const homeTeam = match.home;
+                            const awayTeam = match.away;
+                            const homeScore = match.scoreHome;
+                            const awayScore = match.scoreAway;
+                            
+                            // Update played count
+                            this.standings[homeTeam].played++;
+                            this.standings[awayTeam].played++;
+                            
+                            // Update goals
+                            this.standings[homeTeam].goalsFor += homeScore;
+                            this.standings[homeTeam].goalsAgainst += awayScore;
+                            this.standings[awayTeam].goalsFor += awayScore;
+                            this.standings[awayTeam].goalsAgainst += homeScore;
+                            
+                            // Update results
+                            if (homeScore > awayScore) {
+                                this.standings[homeTeam].wins++;
+                                this.standings[homeTeam].points += 3;
+                                this.standings[awayTeam].losses++;
+                            } else if (awayScore > homeScore) {
+                                this.standings[awayTeam].wins++;
+                                this.standings[awayTeam].points += 3;
+                                this.standings[homeTeam].losses++;
+                            } else {
+                                this.standings[homeTeam].draws++;
+                                this.standings[awayTeam].draws++;
+                                this.standings[homeTeam].points += 1;
+                                this.standings[awayTeam].points += 1;
+                            }
+                        }
+                    });
+                });
+                
+                // Calculate goal differences
+                Object.keys(this.standings).forEach(team => {
+                    this.standings[team].goalDifference = 
+                        this.standings[team].goalsFor - this.standings[team].goalsAgainst;
+                });
+            }
+            resetSeason() {
+                if (confirm('هل أنت متأكد من بدء موسم جديد؟ سيتم حذف جميع النتائج!')) {
+                    this.rounds = this.generateAllRounds();
+                    this.standings = this.initializeStandings();
+                    this.currentRoundView = 0;
+                    this.roundSelector.value = 0;
+                    this.saveToStorage();
+                    this.render();
+                }
+            }
+            render() {
+                this.renderMatches();
+                this.renderStandings();
+                this.updateStatus();
+                this.updateNavigation();
+            }
+            renderMatches() {
+                const currentRound = this.rounds[this.currentRoundView];
+                this.matchesContainer.innerHTML = '';
+                
+                currentRound.forEach((match, index) => {
+                    const matchCard = this.createMatchCard(match, this.currentRoundView, index);
+                    this.matchesContainer.appendChild(matchCard);
+                });
+            }
+            createMatchCard(match, roundIndex, matchIndex) {
+                const card = document.createElement('div');
+                card.className = 'match-card';
+                
+                const homeWinner = match.completed && match.scoreHome > match.scoreAway;
+                const awayWinner = match.completed && match.scoreAway > match.scoreHome;
+                
+                card.innerHTML = `
+                    <div class="team-container">
+                        <div class="team ${homeWinner ? 'winner' : ''}">${match.home}</div>
+                        <div class="score-container">
+                            ${this.isAdminMode ? 
+                                `<input type="number" class="score" value="${match.scoreHome}" 
+                                 oninput="league.updateScore(${roundIndex}, ${matchIndex}, 'home', this.value)" min="0" max="20">` :
+                                `<div class="score">${match.scoreHome}</div>`
+                            }
+                            <span class="vs">VS</span>
+                            ${this.isAdminMode ? 
+                                `<input type="number" class="score" value="${match.scoreAway}" 
+                                 oninput="league.updateScore(${roundIndex}, ${matchIndex}, 'away', this.value)" min="0" max="20">` :
+                                `<div class="score">${match.scoreAway}</div>`
+                            }
+                        </div>
+                        <div class="team ${awayWinner ? 'winner' : ''}">${match.away}</div>
+                    </div>
+                `;
+                
+                return card;
+            }
+            renderStandings() {
+                // Sort teams by points, then goal difference, then goals for
+                const sortedTeams = Object.keys(this.standings).sort((a, b) => {
+                    if (this.standings[b].points !== this.standings[a].points) {
+                        return this.standings[b].points - this.standings[a].points;
+                    }
+                    if (this.standings[b].goalDifference !== this.standings[a].goalDifference) {
+                        return this.standings[b].goalDifference - this.standings[a].goalDifference;
+                    }
+                    return this.standings[b].goalsFor - this.standings[a].goalsFor;
+                });
+                
+                this.standingsBody.innerHTML = '';
+                sortedTeams.forEach((team, index) => {
+                    const stats = this.standings[team];
+                    const row = document.createElement('tr');
+                    if (index === 0) row.style.background = 'rgba(255, 215, 0, 0.1)';
+                    
+                    row.innerHTML = `
+                        <td>${index + 1}</td>
+                        <td style="text-align: right; font-weight: bold;">${team}</td>
+                        <td>${stats.played}</td>
+                        <td style="color: var(--success);">${stats.wins}</td>
+                        <td style="color: var(--accent-gold);">${stats.draws}</td>
+                        <td style="color: var(--danger);">${stats.losses}</td>
+                        <td>${stats.goalsFor}</td>
+                        <td>${stats.goalsAgainst}</td>
+                        <td style="color: ${stats.goalDifference >= 0 ? 'var(--success)' : 'var(--danger)'};">
+                            ${stats.goalDifference >= 0 ? '+' : ''}${stats.goalDifference}
+                        </td>
+                        <td style="font-weight: bold; color: var(--accent-teal);">${stats.points}</td>
+                    `;
+                    
+                    this.standingsBody.appendChild(row);
+                });
+            }
+            updateStatus() {
+                this.currentRoundDisplay.textContent = this.currentRoundView + 1;
+                
+                // Count total completed matches
+                let totalCompleted = 0;
+                let totalGoals = 0;
+                
+                this.rounds.forEach(round => {
+                    round.forEach(match => {
+                        if (match.completed) {
+                            totalCompleted++;
+                            totalGoals += match.scoreHome + match.scoreAway;
+                        }
+                    });
+                });
+                
+                this.completedMatchesDisplay.textContent = totalCompleted;
+                this.totalGoalsDisplay.textContent = totalGoals;
+                
+                // Update progress
+                const progress = ((this.currentRoundView + 1) / 11) * 100;
+                this.seasonProgress.style.width = progress + '%';
+                this.progressText.textContent = `جولة ${this.currentRoundView + 1} من 11`;
+                
+                this.roundTitle.textContent = `الجولة ${this.currentRoundView + 1}`;
+            }
+            updateNavigation() {
+                this.prevRoundBtn.disabled = this.currentRoundView === 0;
+                this.nextRoundBtn.disabled = this.currentRoundView === 10;
+            }
+            saveToStorage() {
+                const data = {
+                    rounds: this.rounds,
+                    currentRoundView: this.currentRoundView,
+                    standings: this.standings
+                };
+                localStorage.setItem('seviLeague11', JSON.stringify(data));
+            }
+            loadFromStorage() {
+                const saved = localStorage.getItem('seviLeague11');
+                if (saved) {
+                    const data = JSON.parse(saved);
+                    if (data.rounds && data.rounds.length === 11) {
+                        this.rounds = data.rounds;
+                        this.currentRoundView = data.currentRoundView || 0;
+                        this.standings = data.standings || this.initializeStandings();
+                        this.roundSelector.value = this.currentRoundView;
+                        this.updateStandings(); // Recalculate to ensure consistency
+                    }
+                }
+            }
+        }
+        // Global league instance
+        let league;
+        document.addEventListener('DOMContentLoaded', () => {
+            league = new SEViLeague();
+        });
+        window.addEventListener('beforeunload', () => {
+            if (league) {
+                league.saveToStorage();
+            }
+        });
+    </script>
+</body>
+</html>
+
